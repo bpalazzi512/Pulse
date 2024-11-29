@@ -15,11 +15,4 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @Post('register')
-  async register(@Body() body: { email: string; password: string }) {
-    //TODO 
-    //check if email exists 
-    const user = { id: 1, email: body.email, password: body.password }; // Replace with database user creation
-    return this.userService.register(user);
-  }
 }

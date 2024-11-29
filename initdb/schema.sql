@@ -1,7 +1,8 @@
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    email VARCHAR(255) NOT NULL,
+    isAdmin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE Posts (
@@ -20,4 +21,11 @@ CREATE TABLE Vote (
     vote vote_type NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (post_id) REFERENCES Posts(id)
+);
+
+CREATE TABLE Registration (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    token VARCHAR(255) NOT NULL UNIQUE, 
+    expiration TIMESTAMP NOT NULL
 );

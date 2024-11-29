@@ -4,13 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
-import { RegisterUserDto } from './register-user.dto';
+import { UserDto } from './user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor() {}
+    constructor(private readonly jwtService: JwtService) {}
 
-  async register(registerUserDto: RegisterUserDto): Promise<Pick<User, "email" | "id">> {
+  async register(registerUserDto: UserDto): Promise<Pick<User, "email" | "id">> {
     const { email, password } = registerUserDto;
 
     // Check if user already exists
@@ -21,6 +22,20 @@ export class UserService {
     console.log("registering with email: " + email )
 
     // Create and save the user
-    return await new Promise<User>((resolve, reject) => {})
+    return { email, id: 1 };
   }
+
+
+  async login(userDto: UserDto) {
+    const { email, password } = userDto;
+
+    //verify that it works here 
+    const payload = { email: email, id: 1 }; // Customize as needed
+    return {
+        user: payload,
+        access_token: this.jwtService.sign(payload),
+    };
+  }
+
+
 }
