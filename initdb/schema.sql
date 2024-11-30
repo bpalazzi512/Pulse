@@ -2,7 +2,7 @@ CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    isAdmin BOOLEAN NOT NULL DEFAULT FALSE
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE Posts (
@@ -27,5 +27,6 @@ CREATE TABLE Registration (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     token VARCHAR(255) NOT NULL UNIQUE, 
-    expiration TIMESTAMP NOT NULL
+    expiration TIMESTAMP NOT NULL,
+    is_password_reset BOOLEAN NOT NULL DEFAULT FALSE
 );

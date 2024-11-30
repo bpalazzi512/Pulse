@@ -6,31 +6,104 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { UserDto } from './user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Registration } from './registration.entity';
+import { RegistrationUserDto } from './registration-user.dto';
+import { v5 as uuidv5 } from 'uuid';
+
+const NAMESPACE_UUID = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'; // Or any other valid UUID
 
 @Injectable()
 export class UserService {
-    constructor(private readonly jwtService: JwtService) {}
+    constructor(
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
 
-  async register(registerUserDto: UserDto): Promise<Pick<User, "email" | "id">> {
+        @InjectRepository(Registration)
+        private readonly registrationRepository: Repository<Registration>,
+
+        private readonly jwtService: JwtService
+
+        ) {}
+
+async createRegistration(registration : RegistrationUserDto): Promise<Registration> {
+    const { email } = registration;
+
+    if (await this.userRepository.findOne({ where: { email } })) {
+        throw new ConflictException('User already exists');
+    }
+
+    if (await this.registrationRepository.findOne({ where: { email } })) {
+        await this.registrationRepository.delete({ email });
+    }
+    
+
+    const registrationObject = this.registrationRepository.create({
+        "email": email,
+        "token": uuidv5(email, NAMESPACE_UUID),
+        "expiration": new Date(Date.now() + 60 * 60) // 1 hour
+    });
+   
+
+    return this.registrationRepository.save(registrationObject);
+}
+
+async getRegistrationInfo(token : string) {
+    const registration = await this.registrationRepository.findOne({ where: { token } });
+    if (!registration) {
+        throw new ConflictException('Registration not found');
+    }
+
+    return registration;
+}
+
+    
+
+async register(registerUserDto: UserDto): Promise<Omit<User, "password">> {
     const { email, password } = registerUserDto;
 
     // Check if user already exists
+    const user = await this.userRepository.findOne({ where: { email } });
+    const registration = await this.registrationRepository.findOne({ where: { email } });
+
+    if (!registration) {
+        throw new ConflictException('Registration not found');
+    }
+
+    if (user) {
+        throw new ConflictException('User already exists');
+    }
     
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("registering with email: " + email )
 
+    const userObject = this.userRepository.create({
+        email,
+        password: hashedPassword
+    });
+
+    await this.registrationRepository.delete({ email });
+
     // Create and save the user
-    return { email, id: 1 };
-  }
+    let savedUser =  await this.userRepository.save(userObject) as Omit<User, "password">;
+    savedUser  = { email: savedUser.email, id: savedUser.id, is_admin: savedUser.is_admin };
+    return savedUser;
+}
 
 
   async login(userDto: UserDto) {
     const { email, password } = userDto;
 
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        throw new ConflictException('Invalid information');
+    }
+
+    const userObject = { email: user.email, id: user.id, is_admin: user.is_admin };
+
     //verify that it works here 
-    const payload = { email: email, id: 1 }; // Customize as needed
+    const payload = userObject // Customize as needed
     return {
         user: payload,
         access_token: this.jwtService.sign(payload),
