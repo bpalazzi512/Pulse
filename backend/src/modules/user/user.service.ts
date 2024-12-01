@@ -39,14 +39,16 @@ async createRegistration(registration : RegistrationUserDto): Promise<Registrati
         await this.registrationRepository.delete({ email });
     }
     
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
 
     const registrationObject = this.registrationRepository.create({
         "email": email,
-        "token": uuidv5(Date.now().toString(), NAMESPACE_UUID),
-        "expiration": new Date(Date.now() + 60 * 60) // 1 hour
+        "token": uuidv5(Date.now().toString() + email, NAMESPACE_UUID),
+        "expiration": expiration // 1 hour
     });
    
-    await this.emailService.sendEmail(email, 'Pulse Registration', 'Please click the link to register ', `<a href='${process.env.FRONTEND_URL}/createpassword/${registrationObject.token}'>Click here to register</a>`);
+    this.emailService.sendEmail(email, 'Pulse Registration', 'Please click the link to register ', `<a href='${process.env.FRONTEND_URL}/createpassword/${registrationObject.token}'>Click here to register</a>`);
     return this.registrationRepository.save(registrationObject);
 }
 

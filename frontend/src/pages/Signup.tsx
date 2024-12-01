@@ -3,6 +3,7 @@ import TextInput from "../components/TextInput";
 import { useState } from "react";
 import { LoaderCircleIcon } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 
 export function Signup() {
@@ -27,7 +28,8 @@ export function Signup() {
         console.log(data)
         if (response.ok) {
             navigate("/signup/confirmation");
-
+        } else {
+            toast.error("Error creating registration");
         }
         
 
