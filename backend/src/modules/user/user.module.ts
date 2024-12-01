@@ -7,6 +7,7 @@ import { User } from './user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { Registration } from './registration.entity';
+import { EmailService } from './email.service';
 
 
 @Module({
@@ -18,7 +19,7 @@ import { Registration } from './registration.entity';
     TypeOrmModule.forFeature([User, Registration]),
   ],
   controllers: [UserController],
-  providers: [UserService, JwtStrategy],
+  providers: [UserService, JwtStrategy, EmailService],
   exports: [JwtStrategy]
 })
 export class UserModule {}

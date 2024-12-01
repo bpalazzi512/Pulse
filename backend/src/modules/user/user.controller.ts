@@ -18,7 +18,7 @@ export class UserController {
   @Post('register')
   async register(@Body() registerUserDto: RegistrationUserDto) {
     const registration = await this.userService.createRegistration(registerUserDto);
-    return { message: 'Registration link created successful', registration };
+    return { message: 'Registration link created successful', registration: {id : registration.id} };
   }
 
   @Post('register/confirm')

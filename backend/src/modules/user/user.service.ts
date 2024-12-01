@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Registration } from './registration.entity';
 import { RegistrationUserDto } from './registration-user.dto';
 import { v5 as uuidv5 } from 'uuid';
+import { EmailService } from './email.service';
 
 const NAMESPACE_UUID = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'; // Or any other valid UUID
 
@@ -21,7 +22,9 @@ export class UserService {
         @InjectRepository(Registration)
         private readonly registrationRepository: Repository<Registration>,
 
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+
+        private readonly emailService: EmailService
 
         ) {}
 
@@ -39,11 +42,11 @@ async createRegistration(registration : RegistrationUserDto): Promise<Registrati
 
     const registrationObject = this.registrationRepository.create({
         "email": email,
-        "token": uuidv5(email, NAMESPACE_UUID),
+        "token": uuidv5(Date.now().toString(), NAMESPACE_UUID),
         "expiration": new Date(Date.now() + 60 * 60) // 1 hour
     });
    
-
+    await this.emailService.sendEmail(email, 'Pulse Registration', 'Please click the link to register ', `<a href='${process.env.FRONTEND_URL}/createpassword/${registrationObject.token}'>Click here to register</a>`);
     return this.registrationRepository.save(registrationObject);
 }
 

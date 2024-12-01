@@ -1,1 +1,2 @@
 initdb/start.sh
+frontend/.env
