@@ -8,13 +8,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { Registration } from './registration.entity';
 import { EmailService } from './email.service';
+import { PassportModule } from '@nestjs/passport';
 
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
         secret: process.env.JWT_SECRET || 'your_secret_key', // Use environment variables
-        signOptions: { expiresIn: '1h' }, // Token expiration
+        signOptions: { algorithm: 'HS256', // Specify the signing algorithm
+        noTimestamp: true, }, // Token expiration
       }),
     TypeOrmModule.forFeature([User, Registration]),
   ],

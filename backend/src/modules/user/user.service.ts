@@ -10,6 +10,7 @@ import { Registration } from './registration.entity';
 import { RegistrationUserDto } from './registration-user.dto';
 import { v5 as uuidv5 } from 'uuid';
 import { EmailService } from './email.service';
+import { JwtStrategy } from './jwt.strategy';
 
 const NAMESPACE_UUID = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'; // Or any other valid UUID
 
@@ -24,7 +25,8 @@ export class UserService {
 
         private readonly jwtService: JwtService,
 
-        private readonly emailService: EmailService
+        private readonly emailService: EmailService,
+        private readonly jwtStrategy: JwtStrategy
 
         ) {}
 
@@ -107,11 +109,17 @@ async register(registerUserDto: UserDto): Promise<Omit<User, "password">> {
 
     const userObject = { email: user.email, id: user.id, is_admin: user.is_admin };
 
+
     //verify that it works here 
     const payload = userObject // Customize as needed
     return {
         user: payload,
-        access_token: this.jwtService.sign(payload),
+        access_token: this.jwtService.sign(payload, { 
+            header: {
+                alg: 'HS256', // Specify the algorithm explicitly
+                // Do not include `typ`
+              },
+        }),
     };
   }
 

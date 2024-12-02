@@ -9,10 +9,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
       secretOrKey: process.env.JWT_SECRET || 'your_secret_key',
+      algorithms: ['HS256'], // Accept tokens signed with HS256
+      passReqToCallback: true,
     });
   }
 
   async validate(payload: any) {
-    return { id: payload.id, email: payload.email }; // Attach user info to request
+    console.log("got heeeeeere")
+    console.log(payload)
+    return { id: payload.id, email: payload.email, is_admin: payload.is_admin }; // Attach user info to request
   }
 }

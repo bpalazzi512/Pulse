@@ -41,9 +41,7 @@ export class UserController {
   async login(@Body() userDto: UserDto) {
     const {email, password} = userDto;
 
-    //TODO 
-    //validate user credentials with auth service
-     // Replace with database user lookup
+  
     const response = await this.userService.login(userDto);
     return response;
   }

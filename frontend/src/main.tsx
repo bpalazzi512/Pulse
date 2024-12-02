@@ -9,18 +9,23 @@ import { SignupLinkSent } from './pages/SignupLinkSent.tsx';
 import { CreatePassword } from './pages/CreatePassword.tsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from './components/AuthProvider.tsx';
+import { ProtectedRoute } from './components/ProtectedRoute.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ToastContainer />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signup/confirmation" element={<SignupLinkSent />}/>
-        <Route path="/createpassword/:token" element={<CreatePassword/>}/>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup/confirmation" element={<SignupLinkSent />}/>
+          <Route path="/createpassword/:token" element={<CreatePassword/>}/>
+          <Route path="/protected" element={<ProtectedRoute redirectTo="/login" />}/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>,
 )

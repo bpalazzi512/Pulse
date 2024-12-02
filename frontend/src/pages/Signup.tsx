@@ -43,7 +43,7 @@ export function Signup() {
         <div className="w-screen h-screen flex flex-col items-center justify-center">
             <h1 className="text-4xl font-semibold align-center text-center">Create an <br /> Account!</h1>
 
-            <form onSubmit={createRegistration} className="mt-10 space-y-4">
+            <form action="javascript:void(0);" method="post" onSubmit={createRegistration} className="mt-10 space-y-4">
                 <div>
                     <label htmlFor="email" className="text-primary-red">Northeastern Email</label>
                     <TextInput type="email" name="email" />
