@@ -1,12 +1,12 @@
-import { useNavigate, Outlet, Navigate } from "react-router";
+import { Navigate } from "react-router";
 import { useAuth } from "./AuthProvider";
+import { ReactNode } from "react";
 
-export const ProtectedRoute = ({ redirectTo = "/login"} : { redirectTo : string}) => {
+export const ProtectedRoute = ({children, redirectTo = "/login"} : { children : ReactNode, redirectTo : string}) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   if (user) {
-    return <Outlet />;
+    return children;
   } else {
     return <Navigate to={redirectTo} />;
   }

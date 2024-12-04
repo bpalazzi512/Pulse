@@ -1,15 +1,28 @@
-import { useState, createContext, useContext, ReactNode } from "react";
+import { useState, createContext, useContext, ReactNode, useEffect } from "react";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+interface User {
+  id: number;
+  email: string;
+  is_admin: boolean;
+}
+
 interface AuthContextType {
-    user: any | null;
+    user: User | null;
     login: (credentials: {email: string, password: string}) => Promise<{ success: boolean }>;
     logout: () => void;
 }
 
 export const AuthProvider = ({children} : { children: ReactNode}) => {
-  const [user, setUser] = useState(localStorage.getItem('user') || null);
+  let startingVal : User | null = null;
+  if (localStorage.getItem('user')) {
+    startingVal = JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  const [user, setUser] = useState(startingVal);
+
+  
+  
 
 
   /*
@@ -47,7 +60,7 @@ export const AuthProvider = ({children} : { children: ReactNode}) => {
     if (response.ok) {
       const data = await response.json();
       setUser(data.user); // Example response structure
-      localStorage.setItem("user", data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
       return { success: true };
     }
     return { success: false };

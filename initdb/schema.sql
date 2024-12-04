@@ -18,7 +18,7 @@ CREATE TABLE Vote (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
-    vote vote_type NOT NULL,
+    lastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (post_id) REFERENCES Posts(id)
 );
@@ -30,3 +30,17 @@ CREATE TABLE Registration (
     expiration TIMESTAMP NOT NULL,
     is_password_reset BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE OR REPLACE FUNCTION update_last_updated_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_updated = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+
+CREATE TRIGGER set_last_updated
+BEFORE UPDATE ON Vote
+FOR EACH ROW
+EXECUTE FUNCTION update_last_updated_column();

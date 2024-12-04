@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { Registration } from './modules/user/registration.entity';
+import { PostModule } from './modules/post/post.module';
+import { Post } from './modules/post/post.entity';
 
 @Module({
   imports: [
@@ -19,10 +21,11 @@ import { Registration } from './modules/user/registration.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Registration],
+      entities: [User, Registration, Post],
       synchronize: process.env.DB_SYNCHRONIZE === "true",
     }),
-    UserModule],
+    UserModule,
+    PostModule],
   controllers: [],
   providers: [],
 })
