@@ -24,7 +24,7 @@ export function Login() {
         
         if (response.success) {
             toast.success("Login successful");
-            navigate("/protected");
+            navigate("/dashboard");
 
         } else {
             toast.error("Login failed. Please check your credentials");
@@ -53,6 +53,13 @@ export function Login() {
                         {pending ? <LoaderIcon className="animate-spin ml-2" size={20} /> : "Login"}
                     </Gradient>
                 </button>
+                <Link to="/">
+                    <Gradient className="flex items-center justify-center  mt-4 p-0.5 w-72 h-10 rounded-full text-primary-red font-thin">
+                        <div className="flex items-center justify-center rounded-full bg-white w-full h-full">
+                            Back
+                        </div>
+                    </Gradient>
+                </Link>
             </form>
             <Link to="/" className="underline-offset-4 hover:underline text-primary-red mt-3"><h3>Forgot Password?</h3></Link>
 

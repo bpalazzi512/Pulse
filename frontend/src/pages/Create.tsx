@@ -25,7 +25,6 @@ export function Create() {
 
     const createPost = async () => {
         setLoading(true);
-        console.log(user!.id)
         const response = await fetch(import.meta.env.VITE_API_URL + "/posts", {
             method: "POST",
             headers: {
@@ -37,7 +36,7 @@ export function Create() {
             toast.success("Post created successfully");
             setContent("");
         } else {
-            console.log(await response.json())
+            
             toast.error("An error occurred");
         }
         setLoading(false);

@@ -82,7 +82,7 @@ async register(registerUserDto: UserDto): Promise<Omit<User, "password">> {
     
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, process.env.NUM_ROUNDS);
     console.log("registering with email: " + email )
 
     const userObject = this.userRepository.create({

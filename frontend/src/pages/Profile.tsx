@@ -1,35 +1,20 @@
 import { useEffect, useState } from "react";
-import { BottomPanel } from "../components/BottomPanel";
-import { PublicPost, Post, Vote } from "../components/PublicPost";
 import { useAuth } from "../components/AuthProvider";
-import { useNavigate, Navigate, Link } from "react-router";
+import { Post } from "../components/PublicPost";
+import { BottomPanel } from "../components/BottomPanel";
 import { PostsDisplay } from "../components/PostsDisplay";
+import { useNavigate } from "react-router";
 
 
-type PostsType = "hot" | "new";
-
-
-export function Dashboard({ variant }  : { variant : PostsType}) {
+export function Profile() {
+    const { user, logout } = useAuth();
     const [posts, setPosts] = useState<Post[]>([]);
-    const { user } = useAuth();
-
-    if (!user) {
-        return <Navigate to="/login"/>
-    }
-
-    
+    const navigate = useNavigate();
 
     const getPosts = async () => {
-        let response;
-        if (variant === "new") {
-            response = await fetch(`${import.meta.env.VITE_API_URL}/posts/new`);
-        } else {
-            response = await fetch(`${import.meta.env.VITE_API_URL}/posts/hot`);
-        }
-
+        let response = await fetch(import.meta.env.VITE_API_URL + `/posts/user/${user!.id}`);
         let posts = (await response.json()).posts;
-
-        response = await fetch(`${import.meta.env.VITE_API_URL}/votes/user/${user.id}`);
+        response = await fetch(`${import.meta.env.VITE_API_URL}/votes/user/${user!.id}`);
         let votes = (await response.json()).votes;
         
         
@@ -49,6 +34,8 @@ export function Dashboard({ variant }  : { variant : PostsType}) {
                 user_vote: undefined,
             }
         })
+        
+
         setPosts(posts);
     }
 
@@ -56,25 +43,32 @@ export function Dashboard({ variant }  : { variant : PostsType}) {
         getPosts();
     }, []);
 
-    useEffect(() => {
-        getPosts();
-    }, [variant])
-
+    const handleLogout = () => {
+        logout();
+        navigate('/')
+    }
     
+
     
     return (
         <div className="w-screen h-screen relative">
             <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2">
                 <BottomPanel/>
             </div>
+            
             <h1 className="text-4xl font-bold mt-4 ml-4">Pulse</h1>
-            <div className="w-full h-full flex flex-col items-center space-y-2">
-                <div className="w-48 flex justify-evenly items-center">
-                    <Link to="/dashboard/hot" className={`text-lg ${variant === "hot" ? "text-primary-red" : "text-gray-500"}`}>Hot</Link>
-                    <Link to="/dashboard/new" className={`text-lg ${variant === "new" ? "text-blue-500" : "text-gray-500"}`}>New</Link>
+
+            <div className="w-full flex flex-col items-center">
+                <div className="w-96 h-fit  rounded-lg ">
+                <button className=" bg-primary-red text-white rounded-full px-4 py-2" onClick={logout}>Logout</button>
+                    <h2 className="text-3xl font-semibold my-4">Your Posts</h2>
+                    
                 </div>
-                <PostsDisplay initial_posts={posts} user={user}/>
+                <PostsDisplay initial_posts={posts} user={user!}/>
+
             </div>
+            
+
         </div>
-    )
+    );
 }

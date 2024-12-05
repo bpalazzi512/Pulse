@@ -2,7 +2,7 @@ import { useState, createContext, useContext, ReactNode, useEffect } from "react
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface User {
+export interface User {
   id: number;
   email: string;
   is_admin: boolean;
@@ -21,7 +21,6 @@ export const AuthProvider = ({children} : { children: ReactNode}) => {
   }
   const [user, setUser] = useState(startingVal);
 
-  
   
 
 
@@ -46,9 +45,7 @@ export const AuthProvider = ({children} : { children: ReactNode}) => {
     */
 
   const login = async (credentials : {email: string, password: string}) => {
-    if (user) {
-        console.log("user logged in alr")
-    }
+    
     const response = await fetch(import.meta.env.VITE_API_URL + "/auth/login", {
         method: "POST",
         headers: {

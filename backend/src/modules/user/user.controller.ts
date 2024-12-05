@@ -33,7 +33,6 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   async me(@Req() req : any) {
-    console.log(req.user);
     return { message: 'User information retrieved successfully' };
   }
 

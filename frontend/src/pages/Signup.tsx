@@ -2,7 +2,7 @@ import Gradient from "../components/Gradient";
 import TextInput from "../components/TextInput";
 import { useState } from "react";
 import { LoaderCircleIcon } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 
@@ -25,7 +25,6 @@ export function Signup() {
         });
         setPending(false);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
             navigate("/signup/confirmation");
         } else {
@@ -55,6 +54,13 @@ export function Signup() {
                         {pending ? <LoaderCircleIcon className="animate-spin ml-2" size={20} /> : "Sign Up"}
                     </Gradient>
                 </button>
+                <Link to="/">
+                    <Gradient className="flex items-center justify-center  mt-4 p-0.5 w-72 h-10 rounded-full text-primary-red font-thin">
+                        <div className="flex items-center justify-center rounded-full bg-white w-full h-full">
+                            Back
+                        </div>
+                    </Gradient>
+                </Link>
             </form>
 
             

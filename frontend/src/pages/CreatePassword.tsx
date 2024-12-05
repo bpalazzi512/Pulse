@@ -46,13 +46,11 @@ export function CreatePassword() {
                 "Content-Type": "application/json",
             }
         });
-        console.log(await response)
         return await response.json();
     }
 
     useEffect(() => {  
         getRegistrationInfo().then((response) => {
-            console.log(response);
             setData(response);
         });
     }, [])

@@ -9,16 +9,18 @@ CREATE TABLE Posts (
     id SERIAL PRIMARY KEY,
     content VARCHAR(500) NOT NULL,
     user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 CREATE TYPE vote_type AS ENUM ('upvote', 'downvote');
 
-CREATE TABLE Vote (
+CREATE TABLE Votes (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
-    lastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vote_type vote_type NOT NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (post_id) REFERENCES Posts(id)
 );
@@ -41,6 +43,6 @@ $$ language 'plpgsql';
 
 
 CREATE TRIGGER set_last_updated
-BEFORE UPDATE ON Vote
+BEFORE UPDATE ON Votes
 FOR EACH ROW
 EXECUTE FUNCTION update_last_updated_column();
