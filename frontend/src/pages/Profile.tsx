@@ -60,7 +60,7 @@ export function Profile() {
 
             <div className="w-full flex flex-col items-center">
                 <div className="w-96 h-fit  rounded-lg ">
-                <button className=" bg-primary-red text-white rounded-full px-4 py-2" onClick={logout}>Logout</button>
+                <button className=" bg-primary-red text-white rounded-full px-4 py-2" onClick={handleLogout}>Logout</button>
                     <h2 className="text-3xl font-semibold my-4">Your Posts</h2>
                     
                 </div>

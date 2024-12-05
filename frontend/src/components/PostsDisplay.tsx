@@ -1,5 +1,5 @@
 
-import { BottomPanel } from "./BottomPanel";
+
 import { Post, PublicPost, Vote } from "./PublicPost";
 import { useEffect, useState } from "react";
 // Remove the import statement for 'User' from './AuthProvider'

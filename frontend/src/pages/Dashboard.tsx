@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { BottomPanel } from "../components/BottomPanel";
-import { PublicPost, Post, Vote } from "../components/PublicPost";
+import {  Post } from "../components/PublicPost";
 import { useAuth } from "../components/AuthProvider";
-import { useNavigate, Navigate, Link } from "react-router";
+import {  Navigate, Link } from "react-router";
 import { PostsDisplay } from "../components/PostsDisplay";
 
 
