@@ -27,7 +27,7 @@ export function PublicPost({post, onToggleVote} : {post : Post, onToggleVote : (
 
     
     return (
-        <div className="w-96 h-fit shadow-md rounded-lg border border-slate-100 p-4">
+        <div className="w-96 h-fit shadow-md rounded-lg border border-slate-100 p-4 z-10">
             <p>{post.content}</p>
             <div className="flex justify-center items-center space-x-10 w-fit mt-4 relative">
                 <GradientButton className="px-4 py-2" onClick={() => onToggleVote(Vote.UPVOTE)}>

@@ -52,7 +52,7 @@ export function Profile() {
     
     return (
         <div className="w-screen h-screen relative">
-            <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2">
+            <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2  z-40">
                 <BottomPanel/>
             </div>
             
