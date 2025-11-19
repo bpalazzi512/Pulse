@@ -51,13 +51,17 @@ export class UserService {
       expiration: expiration, // 1 hour
     });
 
-    this.emailService.sendEmail(
-      email,
-      'Pulse Registration',
-      'Please click the link to register ',
-      `<a href='${process.env.FRONTEND_URL}/createpassword/${registrationObject.token}'>Click here to register</a>`,
-    );
-    return this.registrationRepository.save(registrationObject);
+    const [_, savedRegistration] = await Promise.all([
+      this.emailService.sendEmail(
+        email,
+        'Pulse Registration',
+        'Please click the link to register ',
+        `<a href='${process.env.FRONTEND_URL}/createpassword/${registrationObject.token}'>Click here to register</a>`,
+      ),
+      this.registrationRepository.save(registrationObject),
+    ]);
+
+    return savedRegistration;
   }
 
   async getRegistrationInfo(token: string) {
