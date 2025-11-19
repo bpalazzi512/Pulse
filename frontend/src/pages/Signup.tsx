@@ -25,6 +25,8 @@ export function Signup() {
             },
             body: JSON.stringify({ email }),
         });
+        const res1 = await fetch(import.meta.env.VITE_API_URL + "/posts/hot")
+        console.log(await res1.json())
         console.log(response)
         console.log(await response.json())
         setPending(false);
