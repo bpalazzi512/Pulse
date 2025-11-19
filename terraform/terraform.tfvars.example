@@ -1,0 +1,19 @@
+# AWS Region
+aws_region = "us-east-1"
+
+# Environment
+environment = "dev"
+
+# VPC CIDR Block
+vpc_cidr_block = "10.0.0.0/16"
+
+# Frontend Task Definition
+frontend_cpu = 256
+frontend_memory = 512
+
+# Backend Task Definition
+backend_cpu = 256
+backend_memory = 512
+
+# Database Instance Class
+db_instance_class = "db.t3.micro"
