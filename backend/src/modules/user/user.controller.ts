@@ -9,16 +9,25 @@ import { RegistrationUserDto } from './registration-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get("/registration/:token")
-  async getRegistrationInfo(@Req() req : any) {
-    const registration = await this.userService.getRegistrationInfo(req.params.token);
-    return { message: 'Registration information retrieved successfully', registration };
+  @Get('/registration/:token')
+  async getRegistrationInfo(@Req() req: any) {
+    const registration = await this.userService.getRegistrationInfo(
+      req.params.token,
+    );
+    return {
+      message: 'Registration information retrieved successfully',
+      registration,
+    };
   }
 
   @Post('register')
   async register(@Body() registerUserDto: RegistrationUserDto) {
-    const registration = await this.userService.createRegistration(registerUserDto);
-    return { message: 'Registration link created successful', registration: {id : registration.id} };
+    const registration =
+      await this.userService.createRegistration(registerUserDto);
+    return {
+      message: 'Registration link created successful',
+      registration: { id: registration.id },
+    };
   }
 
   @Post('register/confirm')
@@ -32,15 +41,12 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  async me(@Req() req : any) {
+  async me() {
     return { message: 'User information retrieved successfully' };
   }
 
   @Post('login')
   async login(@Body() userDto: UserDto) {
-    const {email, password} = userDto;
-
-  
     const response = await this.userService.login(userDto);
     return response;
   }

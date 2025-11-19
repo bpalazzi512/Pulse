@@ -2,16 +2,15 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('posts')
 export class Post {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column()
-    content: string;
+  @Column()
+  content: string;
 
-    @Column()
-    user_id: number;
+  @Column()
+  user_id: number;
 
-    @Column()
-    created_at: Date;
+  @Column()
+  created_at: Date;
 }

@@ -1,7 +1,4 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { JwtStrategy } from './modules/user/jwt.strategy';
 
 import { UserModule } from './modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
@@ -25,16 +22,17 @@ import { FrontendAccessMiddleware } from './access.middleware';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [User, Registration, Post, Vote],
-      synchronize: process.env.DB_SYNCHRONIZE === "true",
+      synchronize: process.env.DB_SYNCHRONIZE === 'true',
     }),
     UserModule,
     PostModule,
-    VoteModule,],
+    VoteModule,
+  ],
   controllers: [],
   providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(FrontendAccessMiddleware).forRoutes('*'); // Apply to all routes
-}
+  }
 }

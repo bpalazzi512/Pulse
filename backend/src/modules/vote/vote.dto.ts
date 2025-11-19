@@ -1,14 +1,12 @@
-import { IsNotEmpty, Max, MaxLength } from "class-validator";
+import { IsNotEmpty, Max, MaxLength } from 'class-validator';
 
 export class VoteDto {
+  @IsNotEmpty()
+  user_id: number;
 
-    @IsNotEmpty()
-    user_id: number;
+  @IsNotEmpty()
+  post_id: number;
 
-    @IsNotEmpty()
-    post_id: number;
-
-    @IsNotEmpty()
-    vote_type: "upvote" | "downvote";
-
+  @IsNotEmpty()
+  vote_type: 'upvote' | 'downvote';
 }

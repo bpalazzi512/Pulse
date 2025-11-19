@@ -11,7 +11,7 @@ export class EmailService {
       service: process.env.EMAIL_SERVICE, // You can use other services like 'smtp', 'Mailgun', 'SendGrid', etc.
       auth: {
         user: process.env.EMAIL, // Your email address
-        pass: process.env.EMAIL_PASSWORD,   // Your email password or app-specific password
+        pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
       },
     });
   }

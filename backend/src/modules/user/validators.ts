@@ -1,12 +1,11 @@
 // Step 1: Define the validation logic
 import {
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-    ValidationArguments,
-    registerDecorator,
-    ValidationOptions,
-  } from 'class-validator';
-
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+  registerDecorator,
+  ValidationOptions,
+} from 'class-validator';
 
 @ValidatorConstraint({ name: 'IsSpecificDomainEmail', async: false })
 class IsSpecificDomainEmailConstraint implements ValidatorConstraintInterface {
@@ -25,8 +24,11 @@ class IsSpecificDomainEmailConstraint implements ValidatorConstraintInterface {
 }
 
 // Step 2: Create a decorator to use this logic
-export function IsSpecificDomainEmail(domain: string, validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+export function IsSpecificDomainEmail(
+  domain: string,
+  validationOptions?: ValidationOptions,
+) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName,
