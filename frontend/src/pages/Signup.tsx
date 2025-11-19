@@ -2,41 +2,33 @@ import Gradient from "../components/Gradient";
 import TextInput from "../components/TextInput";
 import { useState } from "react";
 import { LoaderCircleIcon } from "lucide-react";
-import { Link} from "react-router";
-// import { toast } from "react-toastify";
-// import { response } from "express";
+import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 
 export function Signup() {
     const [pending, setPending] = useState(false);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     const createRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         setPending(true);
         event.preventDefault();
-        // const formData = new FormData(event.currentTarget);
-        // const email = formData.get("email") as string;
-        console.log(import.meta.env.VITE_API_URL);
-        console.log("hello")
-        // const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({ email }),
-        // });
-        console.log(import.meta.env.VITE_API_URL + "/posts/hot")
-        const res1 = await fetch(import.meta.env.VITE_API_URL + "/posts/hot")
-        console.log(await res1.json())
-        // console.log(response)
-        // console.log(await response.json())
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get("email") as string;
+        const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        });
         setPending(false);
-        // if (response.ok) {
-        //     navigate("/signup/confirmation");
-        // } else {
-        //     toast.error("Error creating registration");
-        // }
+        if (response.ok) {
+            navigate("/signup/confirmation");
+        } else {
+            toast.error("Error creating registration");
+        }
         
 
     }
