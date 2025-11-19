@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LoaderCircleIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { response } from "express";
 
 
 export function Signup() {
@@ -12,29 +13,30 @@ export function Signup() {
 
 
     const createRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
-        setPending(true);
+        // setPending(true);
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const email = formData.get("email") as string;
+        // const formData = new FormData(event.currentTarget);
+        // const email = formData.get("email") as string;
         console.log(import.meta.env.VITE_API_URL);
         console.log("hello")
-        const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email }),
-        });
+        // const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ email }),
+        // });
+        console.log(import.meta.env.VITE_API_URL + "/posts/hot")
         const res1 = await fetch(import.meta.env.VITE_API_URL + "/posts/hot")
         console.log(await res1.json())
-        console.log(response)
-        console.log(await response.json())
-        setPending(false);
-        if (response.ok) {
-            navigate("/signup/confirmation");
-        } else {
-            toast.error("Error creating registration");
-        }
+        // console.log(response)
+        // console.log(await response.json())
+        // setPending(false);
+        // if (response.ok) {
+        //     navigate("/signup/confirmation");
+        // } else {
+        //     toast.error("Error creating registration");
+        // }
         
 
     }
