@@ -25,7 +25,8 @@ export function Signup() {
             },
             body: JSON.stringify({ email }),
         });
-        console.log(response.json())
+        console.log(response)
+        console.log(await response.json())
         setPending(false);
         if (response.ok) {
             navigate("/signup/confirmation");
