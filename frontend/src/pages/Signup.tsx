@@ -16,6 +16,8 @@ export function Signup() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const email = formData.get("email") as string;
+        console.log(import.meta.env.VITE_API_URL);
+        console.log("hello")
         const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
             method: "POST",
             headers: {
