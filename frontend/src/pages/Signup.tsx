@@ -2,18 +2,18 @@ import Gradient from "../components/Gradient";
 import TextInput from "../components/TextInput";
 import { useState } from "react";
 import { LoaderCircleIcon } from "lucide-react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "react-toastify";
-import { response } from "express";
+import { Link} from "react-router";
+// import { toast } from "react-toastify";
+// import { response } from "express";
 
 
 export function Signup() {
     const [pending, setPending] = useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
 
     const createRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
-        // setPending(true);
+        setPending(true);
         event.preventDefault();
         // const formData = new FormData(event.currentTarget);
         // const email = formData.get("email") as string;
@@ -31,7 +31,7 @@ export function Signup() {
         console.log(await res1.json())
         // console.log(response)
         // console.log(await response.json())
-        // setPending(false);
+        setPending(false);
         // if (response.ok) {
         //     navigate("/signup/confirmation");
         // } else {
